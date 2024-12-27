@@ -40,27 +40,39 @@ const HeaderEdit = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+    const file = e.target.files[0];
+    //console.log("Selected file:", file); // Debug log
+    setFormData((prev) => ({ ...prev, image: file }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
-    if (formData.image) formDataToSend.append("image", formData.image);
-
+  
+    if (formData.image) {
+      formDataToSend.append("image", formData.image); // Include the new image
+    }
+  
+    // console.log(formData.title); 
+    // console.log(formData.description); 
+    // console.log(formData.image); 
     try {
       await axios.put(
         `http://localhost:5000/api/home/${id}`,
         formDataToSend,
-        config
+        {
+          headers: { "Content-Type": "multipart/form-data" }, // Important for file upload
+        }
       );
-      navigate("/add-header"); // Navigate back to the previous page
+      navigate("/add-header");
     } catch (error) {
       console.error("Error updating data:", error.response || error.message);
     }
   };
+  
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -105,7 +117,7 @@ const HeaderEdit = () => {
                 <label className="block text-sm font-medium text-gray-700">
                   Image
                 </label>
-                <input type="file" onChange={handleFileChange} />
+                <input type="file" name="image" onChange={handleFileChange} />
               </div>
 
               <button

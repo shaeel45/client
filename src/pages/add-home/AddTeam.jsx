@@ -1,24 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
 import { CgDetailsMore } from "react-icons/cg";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const AddTeam = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
 
+  const [teamData, setTeamData] = useState([]);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const getTeamData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/home/get-team",
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        setTeamData(res.data.getTeamMemb);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
+  };
+
+  const deleteTeam = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/home/get-team/${id}`,
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        setIsModalOpen(false);
+        setDeleteItem(null);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
+  };
+
+  useEffect(() => {
+    getTeamData();
+  }, [deleteTeam]);
+
   const handleDeleteClick = (itemId) => {
     setDeleteItem(itemId);
     setIsModalOpen(true);
   };
 
-  const handleConfirmDelete = () => {
-    // Perform delete action here (e.g., API call)
-    console.log("Deleted item:", deleteItem);
+  const handleConfirmDelete = async () => {
+    if (deleteItem) {
+      await deleteTeam(deleteItem);
+      getTeamData(); // Refresh header data after delete
+    }
     setIsModalOpen(false);
     setDeleteItem(null);
   };
@@ -51,12 +99,12 @@ const AddTeam = () => {
             {/* Add content button */}
             <div className="flex items-center justify-end m-4">
               <NavLink to={"/team-insert"}>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Add Content
-              </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Add Content
+                </button>
               </NavLink>
             </div>
 
@@ -72,10 +120,16 @@ const AddTeam = () => {
                           {/* Title column */}
                           <div className="font-semibold text-left">Name</div>
                         </th>
-                        <th className="p-2 w-3/5">
+                        <th className="p-2 w-1/6">
                           {/* Description column */}
                           <div className="font-semibold text-left">
                             Position
+                          </div>
+                        </th>
+                        <th className="p-2 w-1/6">
+                          {/* Description column */}
+                          <div className="font-semibold text-left">
+                            Linked In
                           </div>
                         </th>
                         <th className="p-2 w-1/6">
@@ -89,33 +143,34 @@ const AddTeam = () => {
                     {/* Table body */}
                     <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                       {/* Row */}
-                      {[1, 2].map((item) => (
-                        <tr key={item}>
+                      {teamData.map((item) => (
+                        <tr key={item._id}>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                              Shahriar Muhammad
+                              {item.teamMemberName}
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>
-                              CEO & Founder
-                            </div>
+                            <div>{item.teamMemberPosition}</div>
+                          </td>
+                          <td className="p-2 w-3/5">
+                            <div>{item.teamMemberLinkedin ? item.teamMemberLinkedin : "Not Inserted"}</div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
                               <span className="cursor-pointer">
-                                <NavLink to="/team-details">
+                                <NavLink to={`/team-details/${item._id}`}>
                                   <CgDetailsMore />
                                 </NavLink>
                               </span>
                               <span className="cursor-pointer text-green-800">
-                                <NavLink to="/team-edit">
+                                <NavLink to={`/team-edit/${item._id}`}>
                                   <FaRegEdit />
                                 </NavLink>
                               </span>
                               <span
                                 className="cursor-pointer text-red-800"
-                                onClick={() => handleDeleteClick(item)}
+                                onClick={() => handleDeleteClick(item._id)}
                               >
                                 <MdDelete />
                               </span>

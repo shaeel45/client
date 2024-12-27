@@ -13,7 +13,6 @@ const AddHeader = () => {
   const [deleteItem, setDeleteItem] = useState(null);
 
   const [headerData, setHeaderData] = useState([]);
-  // console.log(headerData);
 
   const config = {
     headers: {
@@ -46,7 +45,6 @@ const AddHeader = () => {
       if (!res.data.status === 401 || !res.data) {
         console.error("Error");
       } else {
-        console.log("user delete");
         setIsModalOpen(false);
         setDeleteItem(null);
       }
@@ -59,15 +57,19 @@ const AddHeader = () => {
     getHeaderData();
   }, [deleteHeader]);
 
-  // const handleDeleteClick = (itemId) => {
-  //   setDeleteItem(itemId);
-  //   setIsModalOpen(true);
-  // };
+  const handleDeleteClick = (itemId) => {
+    setDeleteItem(itemId);
+    setIsModalOpen(true);
+  };
 
-  // const handleConfirmDelete = () => {
-  //   // Perform delete action here (e.g., API call)
-
-  // };
+  const handleConfirmDelete = async () => {
+    if (deleteItem) {
+      await deleteHeader(deleteItem);
+      getHeaderData(); // Refresh header data after delete
+    }
+    setIsModalOpen(false);
+    setDeleteItem(null);
+  };
 
   const handleCancelDelete = () => {
     setIsModalOpen(false);
@@ -161,8 +163,7 @@ const AddHeader = () => {
                               </span>
                               <span
                                 className="cursor-pointer text-red-800"
-                                // onClick={() => handleDeleteClick(item)}
-                                onClick={() => deleteHeader(item._id)}
+                                onClick={() => handleDeleteClick(item._id)}
                               >
                                 <MdDelete />
                               </span>
@@ -197,7 +198,7 @@ const AddHeader = () => {
                   Cancel
                 </button>
                 <button
-                  // onClick={()=>dltHeader}
+                  onClick={handleConfirmDelete}
                   className="px-4 py-2 bg-red-600 text-white rounded-md"
                 >
                   Delete

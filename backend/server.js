@@ -21,7 +21,7 @@ app.use(cors());         // Enable Cross-Origin Resource Sharing
 app.use('/api/auth', authRoutes);
 app.use('/api/home', homeRoutes);  
 
-app.use('/Home', express.static(path.join(__dirname, 'public/Home')));
+app.use('/Home', express.static("./public/Home"));
 
 
 // Define the port (use the PORT from .env or default to 5000)

@@ -1,9 +1,97 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TeamEdit = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    teamMemberName: "",
+    teamMemberPosition: "",
+    teamMemberInsta: "",
+    teamMemberFacebook: "",
+    teamMemberLinkedin: "",
+    teamMemberImage: null,
+  });
+  const { id } = useParams(); // Get the ID from the URL
+  const navigate = useNavigate();
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  // Fetch data for the selected ID
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/home/get-team/${id}`
+        );
+        const {
+          teamMemberName,
+          teamMemberPosition,
+          teamMemberInsta,
+          teamMemberFacebook,
+          teamMemberLinkedin,
+        } = res.data.team;
+        setFormData({
+          teamMemberName,
+          teamMemberPosition,
+          teamMemberInsta,
+          teamMemberFacebook,
+          teamMemberLinkedin,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error.response || error.message);
+      }
+    };
+    fetchTeam();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    //console.log("Selected file:", file); // Debug log
+    setFormData((prev) => ({ ...prev, teamMemberImage : file }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append("teamMemberName", formData.teamMemberName);
+    formDataToSend.append("teamMemberPosition", formData.teamMemberPosition);
+    formDataToSend.append("teamMemberInsta", formData.teamMemberInsta);
+    formDataToSend.append("teamMemberFacebook", formData.teamMemberFacebook);
+    formDataToSend.append("teamMemberLinkedin", formData.teamMemberLinkedin);
+  
+    if (formData.teamMemberImage) {
+      formDataToSend.append("teamMemberImage", formData.teamMemberImage); // Include the new image
+    }
+  
+    // console.log(formData.title); 
+    // console.log(formData.description); 
+    // console.log(formData.image); 
+    try {
+      await axios.put(
+        `http://localhost:5000/api/home/get-team/${id}`,
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" }, // Important for file upload
+        }
+      );
+      navigate("/add-team");
+    } catch (error) {
+      console.error("Error updating data:", error.response || error.message);
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -35,18 +123,19 @@ const TeamEdit = () => {
               </header>
               <div className="p-3">
                 {/* Form */}
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label
-                      htmlFor="name"
+                      htmlFor="teamMemberName"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Full Name
                     </label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
+                      name="teamMemberName"
+                      value={formData.teamMemberName}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="Enter name"
                     />
@@ -54,15 +143,16 @@ const TeamEdit = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="positon"
+                      htmlFor="teamMemberPosition"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Position
                     </label>
                     <input
                       type="text"
-                      id="position"
-                      name="position"
+                      name="teamMemberPosition"
+                      value={formData.teamMemberPosition}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="Enter position"
                     />
@@ -70,15 +160,16 @@ const TeamEdit = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="insta"
+                      htmlFor="teamMemberInsta"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Instagram
                     </label>
                     <input
                       type="text"
-                      id="insta"
-                      name="insta"
+                      name="teamMemberInsta"
+                      value={formData.teamMemberInsta}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="username (optional)"
                     />
@@ -86,15 +177,16 @@ const TeamEdit = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="facebook"
+                      htmlFor="teamMemberFacebook"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Facebook
                     </label>
                     <input
                       type="text"
-                      id="facebook"
-                      name="facebook"
+                      name="teamMemberFacebook"
+                      value={formData.teamMemberFacebook}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="username (optional)"
                     />
@@ -102,17 +194,29 @@ const TeamEdit = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="linkedin"
+                      htmlFor="teamMemberLinkedin"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       LinkedIn
                     </label>
                     <input
                       type="text"
-                      id="linkedin"
-                      name="linkedin"
+                      name="teamMemberLinkedin"
+                      value={formData.teamMemberLinkedin}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="username (optional)"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Image
+                    </label>
+                    <input
+                      type="file"
+                      name="teamMemberImage"
+                      onChange={handleFileChange}
                     />
                   </div>
 

@@ -10,7 +10,6 @@ const HeaderInsert = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  // const [headerImage, setHeaderImage] = useState(null);
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);

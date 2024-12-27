@@ -63,7 +63,7 @@ const HeaderDetails = () => {
                   {/* Image Section */}
                   <div className="flex justify-center mb-8">
                     <img
-                      src={`http://localhost:5000/public/Home/${headerData.imgPath}`}
+                      src={`http://localhost:5000/Home/${headerData.imgPath}`}
                       alt={headerData.title}
                       className="w-full max-w-lg h-auto rounded-lg shadow-lg"
                     />

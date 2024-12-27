@@ -19,7 +19,7 @@ import TestimonialEdit from "./pages/add-home/TestimonialEdit";
 import HeaderInsert from "./pages/add-home/HeaderInsert";
 import TeamInsert from "./pages/add-home/TeamInsert";
 import AddServices from "./pages/add-services/AddServices";
-import Homep from './pages/Homep'
+import Homep from "./pages/Homep";
 
 function App() {
   const location = useLocation();
@@ -102,15 +102,7 @@ function App() {
             </Protected>
           }
         />
-        <Route
-          exact
-          path="/team-details"
-          element={
-            <Protected>
-              <TeamDetails />
-            </Protected>
-          }
-        />
+        <Route path="/team-details/:id" element={<TeamDetails />} />
         <Route
           exact
           path="/team-edit"
@@ -120,6 +112,7 @@ function App() {
             </Protected>
           }
         />
+        <Route path="/team-edit/:id" element={<TeamEdit />} />
         <Route
           exact
           path="/team-insert"
