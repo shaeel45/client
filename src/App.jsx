@@ -21,6 +21,7 @@ import HeaderInsert from "./pages/add-home/HeaderInsert";
 import TeamInsert from "./pages/add-home/TeamInsert";
 import AddServices from "./pages/add-services/AddServices";
 import Homep from "./pages/Homep";
+import ServiceInsert from "./pages/add-services/ServiceInsert";
 
 function App() {
   const location = useLocation();
@@ -105,7 +106,10 @@ function App() {
             </Protected>
           }
         />
-        <Route path="/testimonial-details/:id" element={<TestimonialDetails />} />
+        <Route
+          path="/testimonial-details/:id"
+          element={<TestimonialDetails />}
+        />
         <Route path="/testimonial-edit/:id" element={<TestimonialEdit />} />
         <Route
           exact
@@ -127,7 +131,17 @@ function App() {
             </Protected>
           }
         />
+        <Route
+        exact
+        path="/service-insert"
+        element={
+          <Protected>
+            <ServiceInsert />
+          </Protected>
+        }
+      />
       </Routes>
+      
     </>
   );
 }
