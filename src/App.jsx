@@ -16,6 +16,7 @@ import TeamDetails from "./pages/add-home/TeamDetails";
 import TeamEdit from "./pages/add-home/TeamEdit";
 import TestimonialDetails from "./pages/add-home/TestimonialDetails";
 import TestimonialEdit from "./pages/add-home/TestimonialEdit";
+import TestimonialInsert from "./pages/add-home/TestimonialInsert";
 import HeaderInsert from "./pages/add-home/HeaderInsert";
 import TeamInsert from "./pages/add-home/TeamInsert";
 import AddServices from "./pages/add-services/AddServices";
@@ -56,25 +57,7 @@ function App() {
             </Protected>
           }
         />
-        <Route
-          exact
-          path="/header-details"
-          element={
-            <Protected>
-              <HeaderDetails />
-            </Protected>
-          }
-        />
         <Route path="/header-details/:id" element={<HeaderDetails />} />
-        <Route
-          exact
-          path="/header-edit"
-          element={
-            <Protected>
-              <HeaderEdit />
-            </Protected>
-          }
-        />
         <Route
           exact
           path="/header-edit/:id"
@@ -103,15 +86,6 @@ function App() {
           }
         />
         <Route path="/team-details/:id" element={<TeamDetails />} />
-        <Route
-          exact
-          path="/team-edit"
-          element={
-            <Protected>
-              <TeamEdit />
-            </Protected>
-          }
-        />
         <Route path="/team-edit/:id" element={<TeamEdit />} />
         <Route
           exact
@@ -131,30 +105,14 @@ function App() {
             </Protected>
           }
         />
-        <Route
-          exact
-          path="/testimonial-details"
-          element={
-            <Protected>
-              <TestimonialDetails />
-            </Protected>
-          }
-        />
-        <Route
-          exact
-          path="/testimonial-edit"
-          element={
-            <Protected>
-              <TestimonialEdit />
-            </Protected>
-          }
-        />
+        <Route path="/testimonial-details/:id" element={<TestimonialDetails />} />
+        <Route path="/testimonial-edit/:id" element={<TestimonialEdit />} />
         <Route
           exact
           path="/testimonial-insert"
           element={
             <Protected>
-              <TestimonialEdit />
+              <TestimonialInsert />
             </Protected>
           }
         />

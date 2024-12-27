@@ -1,14 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
-import {
-  FaFacebookSquare,
-  FaInstagramSquare,
-  FaLinkedin,
-} from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const TestimonialDetails = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { id } = useParams(); // Extract ID from URL
+    const [testimonialData, setTestimonialData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchTestimonialDetails = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/home/get-testimonial/${id}`
+        );
+        setTestimonialData(res.data.testimonial); // Ensure this matches your API response structure
+      } catch (err) {
+        console.error("Error fetching testimonial details:", err);
+        setError("Failed to load testimonial details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    useEffect(() => {
+      fetchTestimonialDetails();
+    }, [id]);
+
+    if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!testimonialData) return <p>No data available.</p>;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -41,14 +64,21 @@ const TestimonialDetails = () => {
               <div className="p-3">
                 {/* Table */}
                 <div className="overflow-x-auto">
+                <div className="flex justify-center mb-8">
+                  <img
+                    src={`http://localhost:5000/Home/${testimonialData.clientImgPath}`}
+                    alt={testimonialData.clientName}
+                    className="w-52 h-52 rounded-full shadow-lg object-cover"
+                  />
+                </div>
                   <h1 className="text-4xl pt-5">Full Name</h1>
-                  <p className="pt-5">John D.</p>
+                  <p className="pt-5">{testimonialData.clientName}</p>
                   <h1 className="text-4xl pt-10">Position</h1>
-                  <p className="pt-5">Product Manager at BrightTech</p>
+                  <p className="pt-5">{testimonialData.clientPosition}</p>
 
                   <h1 className="text-4xl pt-10">Comment</h1>
                   <div className="pt-5">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque, itaque illo. Tempore ipsa dolore corrupti quidem enim. Aperiam quas tempore quibusdam delectus odio accusamus, quam exercitationem officiis voluptas dicta illo!</p>
+                    <p>{testimonialData.clientComment}</p>
                   </div>
                 </div>
               </div>

@@ -1,9 +1,90 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TestimonialEdit = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    clientName: "",
+    clientPosition: "",
+    clientComment: "",
+    clientImage: null,
+  });
+  const { id } = useParams(); // Get the ID from the URL
+  const navigate = useNavigate();
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  // Fetch data for the selected ID
+  useEffect(() => {
+    const fetchTestimonial = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/home/get-testimonial/${id}`
+        );
+        const {
+          clientName,
+          clientPosition,
+          clientComment,
+          clientImage,
+        } = res.data.testimonial;
+        setFormData({
+          clientName,
+          clientPosition,
+          clientComment,
+          clientImage,
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error.response || error.message);
+      }
+    };
+    fetchTestimonial();
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prev) => ({ ...prev, clientImage : file }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append("clientName", formData.clientName);
+    formDataToSend.append("clientPosition", formData.clientPosition);
+    formDataToSend.append("clientComment", formData.clientComment);
+  
+    if (formData.clientImage) {
+      formDataToSend.append("clientImage", formData.clientImage); // Include the new image
+    }
+  
+    // console.log(formData.title); 
+    // console.log(formData.description); 
+    // console.log(formData.image); 
+    try {
+      await axios.put(
+        `http://localhost:5000/api/home/get-testimonial/${id}`,
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" }, // Important for file upload
+        }
+      );
+      navigate("/add-testimonial");
+    } catch (error) {
+      console.error("Error updating data:", error.response || error.message);
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -35,18 +116,19 @@ const TestimonialEdit = () => {
               </header>
               <div className="p-3">
                 {/* Form */}
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label
-                      htmlFor="name"
+                      htmlFor="clientName"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Full Name
                     </label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
+                      name="clientName"
+                      value={formData.clientName}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="Enter name"
                     />
@@ -54,15 +136,16 @@ const TestimonialEdit = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="positon"
+                      htmlFor="clientPosition"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Position
                     </label>
                     <input
                       type="text"
-                      id="position"
-                      name="position"
+                      name="clientPosition"
+                      value={formData.clientPosition}
+                      onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="Enter position"
                     />
@@ -70,18 +153,30 @@ const TestimonialEdit = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="comment"
+                      htmlFor="clientComment"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
                       Comment
                     </label>
                     <textarea
-                      id="comment"
-                      name="comment"
+                      name="clientComment"
+                      value={formData.clientComment}
+                      onChange={handleChange}
                       rows={4}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="Enter comment"
                     ></textarea>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Image
+                    </label>
+                    <input
+                      type="file"
+                      name="clientImage"
+                      onChange={handleFileChange}
+                    />
                   </div>
 
                   <div className="flex items-center justify-end">

@@ -65,7 +65,7 @@ const AddTeam = () => {
   const handleConfirmDelete = async () => {
     if (deleteItem) {
       await deleteTeam(deleteItem);
-      getTeamData(); // Refresh header data after delete
+      getTeamData(); // Refresh data after delete
     }
     setIsModalOpen(false);
     setDeleteItem(null);

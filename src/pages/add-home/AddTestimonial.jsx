@@ -1,32 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../partials/Sidebar";
 import Header from "../../partials/Header";
 import { CgDetailsMore } from "react-icons/cg";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 const AddTestimonial = () => {
-       const [sidebarOpen, setSidebarOpen] = useState(false);
-        const [isModalOpen, setIsModalOpen] = useState(false);
-        const [deleteItem, setDeleteItem] = useState(null);
-      
-        const handleDeleteClick = (itemId) => {
-          setDeleteItem(itemId);
-          setIsModalOpen(true);
-        };
-      
-        const handleConfirmDelete = () => {
-          // Perform delete action here (e.g., API call)
-          console.log("Deleted item:", deleteItem);
-          setIsModalOpen(false);
-          setDeleteItem(null);
-        };
-      
-        const handleCancelDelete = () => {
-          setIsModalOpen(false);
-          setDeleteItem(null);
-        };
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(null);
+
+  const [testimonialData, setTestimonialData] = useState([]);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const getTestimonialData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/home/get-testimonial",
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        setTestimonialData(res.data.getTestimonial);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
+  };
+
+  const deleteTestimonial = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/home/get-testimonial/${id}`,
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        setIsModalOpen(false);
+        setDeleteItem(null);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
+  };
+
+  useEffect(() => {
+    getTestimonialData();
+  }, [deleteTestimonial]);
+
+  const handleDeleteClick = (itemId) => {
+    setDeleteItem(itemId);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (deleteItem) {
+      await deleteTestimonial(deleteItem);
+      getTestimonialData(); // Refresh data after delete
+    }
+    setIsModalOpen(false);
+    setDeleteItem(null);
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
+    setDeleteItem(null);
+  };
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -51,12 +99,12 @@ const AddTestimonial = () => {
 
             <div className="flex items-center justify-end m-4">
               <NavLink to="/testimonial-insert">
-              <button
-                type="submit"
-                className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Add Content
-              </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Add Content
+                </button>
               </NavLink>
             </div>
 
@@ -75,7 +123,7 @@ const AddTestimonial = () => {
                         <th className="p-2 w-3/5">
                           {/* Description column */}
                           <div className="font-semibold text-left">
-                            About
+                            Comment
                           </div>
                         </th>
                         <th className="p-2 w-1/6">
@@ -89,33 +137,31 @@ const AddTestimonial = () => {
                     {/* Table body */}
                     <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                       {/* Row */}
-                      {[1, 2].map((item) => (
-                        <tr key={item}>
+                      {testimonialData.map((item) => (
+                        <tr key={item._id}>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                              John D.
+                              {item.clientName}
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>
-                              Product Manager at BrightTech
-                            </div>  
+                            <div>{item.clientComment}</div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
                               <span className="cursor-pointer">
-                                <NavLink to="/Testimonial-details">
+                                <NavLink to={`/testimonial-details/${item._id}`}>
                                   <CgDetailsMore />
                                 </NavLink>
                               </span>
                               <span className="cursor-pointer text-green-800">
-                                <NavLink to="/testimonial-edit">
+                                <NavLink to={`/testimonial-edit/${item._id}`}>
                                   <FaRegEdit />
                                 </NavLink>
                               </span>
                               <span
                                 className="cursor-pointer text-red-800"
-                                onClick={() => handleDeleteClick(item)}
+                                onClick={() => handleDeleteClick(item._id)}
                               >
                                 <MdDelete />
                               </span>
@@ -128,7 +174,6 @@ const AddTestimonial = () => {
                 </div>
               </div>
             </div>
-            
           </div>
         </main>
 
@@ -162,7 +207,7 @@ const AddTestimonial = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddTestimonial
+export default AddTestimonial;
