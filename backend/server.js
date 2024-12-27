@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './Routes/authRoutes.js';
 import homeRoutes from './Routes/homeRoutes.js';
+import serviceRoutes from "./Routes/serviceRoutes.js";
 import cors from 'cors';
 
 // Load environment variables from .env file
@@ -20,6 +21,8 @@ app.use(cors());         // Enable Cross-Origin Resource Sharing
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/home', homeRoutes);  
+app.use('/api/service', serviceRoutes);  
+
 
 app.use('/Home', express.static("./public/Home"));
 
