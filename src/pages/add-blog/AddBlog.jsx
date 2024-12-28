@@ -7,77 +7,13 @@ import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
-const AddServices = () => {
+const AddBlog = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
 
-  const [serviceData, setService] = useState([]);
-
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  const getServiceData = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:5000/api/service/get-service",
-        config
-      );
-      if (!res.data.status === 401 || !res.data) {
-        console.error("Error");
-      } else {
-        setService(res.data.getService);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error.response || error.message);
-    }
-  };
-
-  const deleteService = async (id) => {
-    try {
-      const res = await axios.delete(
-        `http://localhost:5000/api/service/service/${id}`,
-        config
-      );
-      if (!res.data.status === 401 || !res.data) {
-        console.error("Error");
-      } else {
-        setIsModalOpen(false);
-        setDeleteItem(null);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error.response || error.message);
-    }
-  };
-
-  useEffect(() => {
-    getServiceData();
-  }, [deleteService]);
-
-  const handleDeleteClick = (itemId) => {
-    setDeleteItem(itemId);
-    setIsModalOpen(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (deleteItem) {
-      await deleteService(deleteItem);
-      getServiceData(); // Refresh header data after delete
-    }
-    setIsModalOpen(false);
-    setDeleteItem(null);
-  };
-
-  const handleCancelDelete = () => {
-    setIsModalOpen(false);
-    setDeleteItem(null);
-  };
-
   return (
-    <div className="flex h-screen overflow-hidden">
+     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -93,14 +29,14 @@ const AddServices = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  Service Section
+                  Blog Section
                 </h1>
               </div>
             </div>
 
             {/* Add Content Button */}
             <div className="flex items-center justify-end m-4">
-              <NavLink to={"/service-insert"}>
+              <NavLink to={"/blog-insert"}>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -139,25 +75,25 @@ const AddServices = () => {
                     {/* Table body */}
                     <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                       {/* Row */}
-                      {serviceData.map((item) => (
-                        <tr key={item._id}>
+                      {/* {serviceData.map((item) => ( */}
+                        <tr>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                              {item.service.slice(0,15)}{" ...."}
+                             dfsdfds
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>{item.description.slice(0,80)}{" ...."}</div>
+                            <div>fsdfasf</div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
                               <span className="cursor-pointer">
-                                <NavLink to={`/service-details/${item._id}`}>
+                                <NavLink to={`/blog-details`}>
                                   <CgDetailsMore />
                                 </NavLink>
                               </span>
                               <span className="cursor-pointer text-green-800">
-                                <NavLink to={`/service-edit/${item._id}`}>
+                                <NavLink to={`/blog-edit`}>
                                   <FaRegEdit />
                                 </NavLink>
                               </span>
@@ -170,7 +106,7 @@ const AddServices = () => {
                             </div>
                           </td>
                         </tr>
-                      ))}
+                    {/*  ))} */}
                     </tbody>
                   </table>
                 </div>
@@ -209,7 +145,7 @@ const AddServices = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AddServices;
+export default AddBlog

@@ -22,6 +22,20 @@ import TeamInsert from "./pages/add-home/TeamInsert";
 import AddServices from "./pages/add-services/AddServices";
 import Homep from "./pages/Homep";
 import ServiceInsert from "./pages/add-services/ServiceInsert";
+import ServiceDetails from "./pages/add-services/ServiceDetails";
+import ServiceEdit from "./pages/add-services/ServiceEdit";
+import AddPortfolio from "./pages/add-portfolio/AddPortfolio";
+import PortfolioInsert from "./pages/add-portfolio/PortfolioInsert";
+import PortfolioDetails from "./pages/add-portfolio/PortfolioDetails";
+import PortfolioEdit from "./pages/add-portfolio/PortfolioEdit";
+import AddAbout from "./pages/add-about/AddAbout";
+import AboutInsert from "./pages/add-about/AboutInsert";
+import AboutDetails from "./pages/add-about/AboutDetails";
+import AboutEdit from "./pages/add-about/AboutEdit";
+import AddBlog from "./pages/add-blog/AddBlog";
+import BlogInsert from "./pages/add-blog/BlogInsert";
+import BlogDetails from "./pages/add-blog/BlogDetails";
+import BlogEdit from "./pages/add-blog/BlogEdit";
 
 function App() {
   const location = useLocation();
@@ -140,8 +154,140 @@ function App() {
           </Protected>
         }
       />
-      </Routes>
-      
+      <Route
+        exact
+        path="/service-details/:id"
+        element={
+          <Protected>
+            <ServiceDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/service-edit/:id"
+        element={
+          <Protected>
+            <ServiceEdit />
+          </Protected>
+        }
+      />
+
+      {/* Portfolio */}
+      <Route
+          exact
+          path="/add-portfolio"
+          element={
+            <Protected>
+              <AddPortfolio />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/portfolio-insert"
+        element={
+          <Protected>
+            <PortfolioInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/portfolio-details/:id"
+        element={
+          <Protected>
+            <PortfolioDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/portfolio-edit/:id"
+        element={
+          <Protected>
+            <PortfolioEdit />
+          </Protected>
+        }
+      />
+
+      {/* About */}
+      <Route
+          exact
+          path="/add-about"
+          element={
+            <Protected>
+              <AddAbout />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/about-insert"
+        element={
+          <Protected>
+            <AboutInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/about-details"
+        element={
+          <Protected>
+            <AboutDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/about-edit"
+        element={
+          <Protected>
+            <AboutEdit />
+          </Protected>
+        }
+      />
+
+      {/* Blogs */}
+      <Route
+          exact
+          path="/add-blog"
+          element={
+            <Protected>
+              <AddBlog />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/blog-insert"
+        element={
+          <Protected>
+            <BlogInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/blog-details"
+        element={
+          <Protected>
+            <BlogDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/blog-edit"
+        element={
+          <Protected>
+            <BlogEdit />
+          </Protected>
+        }
+      />
+
+      </Routes>      
     </>
   );
 }

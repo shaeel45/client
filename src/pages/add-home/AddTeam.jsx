@@ -92,7 +92,7 @@ const AddTeam = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  Team Section
+                  Header Section
                 </h1>
               </div>
             </div>
@@ -147,14 +147,14 @@ const AddTeam = () => {
                         <tr key={item._id}>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                              {item.teamMemberName}
+                              {item.teamMemberName.slice(0,15)} { "...."}
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>{item.teamMemberPosition}</div>
+                            <div>{item.teamMemberPosition.slice(0,55)} {" ...."}</div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>{item.teamMemberLinkedin ? item.teamMemberLinkedin : "Not Inserted"}</div>
+                            <div>{item.teamMemberLinkedin ? `${item.teamMemberLinkedin.slice(0,15)} ${` ....`}` : "Not Inserted"}</div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">

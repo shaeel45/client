@@ -4,34 +4,34 @@ import Header from "../../partials/Header";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const TestimonialDetails = () => {
+const ServiceDetails = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { id } = useParams(); // Extract ID from URL
-  const [testimonialData, setTestimonialData] = useState(null);
+  const [serviceData, setServiceData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchTestimonialDetails = async () => {
+  const fetchServiceDetails = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/home/get-testimonial/${id}`
+        `http://localhost:5000/api/service/get-service/${id}`
       );
-      setTestimonialData(res.data.testimonial); // Ensure this matches your API response structure
+      setServiceData(res.data.service); // Ensure this matches your API response structure
     } catch (err) {
-      console.error("Error fetching testimonial details:", err);
-      setError("Failed to load testimonial details.");
+      console.error("Error fetching service details:", err);
+      setError("Failed to load service details.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchTestimonialDetails();
+    fetchServiceDetails();
   }, [id]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
-  if (!testimonialData) return <p>No data available.</p>;
+  if (!serviceData) return <p>No data available.</p>;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -50,7 +50,7 @@ const TestimonialDetails = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  Testimonial Section
+                  Service Section
                 </h1>
               </div>
             </div>
@@ -66,19 +66,16 @@ const TestimonialDetails = () => {
                 <div className="overflow-x-auto">
                   <div className="flex justify-center mb-8">
                     <img
-                      src={`http://localhost:5000/Home/${testimonialData.clientImgPath}`}
-                      alt={testimonialData.clientName}
+                      src={`http://localhost:5000/Service/${serviceData.icon}`}
+                      alt={serviceData.service}
                       className="w-52 h-52 rounded-full shadow-lg object-cover"
                     />
                   </div>
-                  <h1 className="text-4xl pt-5">Full Name</h1>
-                  <p className="pt-5">{testimonialData.clientName}</p>
-                  <h1 className="text-4xl pt-10">Position</h1>
-                  <p className="pt-5">{testimonialData.clientPosition}</p>
-
-                  <h1 className="text-4xl pt-10">Comment</h1>
+                  <h1 className="text-4xl pt-5">Service</h1>
+                  <p className="pt-5">{serviceData.service}</p>
+                  <h1 className="text-4xl pt-10">Description</h1>
                   <div className="pt-5">
-                    <p>{testimonialData.clientComment}</p>
+                    <p>{serviceData.description}</p>
                   </div>
                 </div>
               </div>
@@ -90,4 +87,4 @@ const TestimonialDetails = () => {
   );
 };
 
-export default TestimonialDetails;
+export default ServiceDetails;

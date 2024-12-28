@@ -7,12 +7,12 @@ import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
-const AddServices = () => {
+const AddPortfolio = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
 
-  const [serviceData, setService] = useState([]);
+  const [portfolioData, setPortfolioData] = useState([]);
 
   const config = {
     headers: {
@@ -20,26 +20,26 @@ const AddServices = () => {
     },
   };
 
-  const getServiceData = async () => {
+  const getPortfolioData = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/service/get-service",
+        "http://localhost:5000/api/portfolio/get-portfolio",
         config
       );
       if (!res.data.status === 401 || !res.data) {
         console.error("Error");
       } else {
-        setService(res.data.getService);
+        setPortfolioData(res.data.getPortfolio);
       }
     } catch (error) {
       console.error("Error fetching data:", error.response || error.message);
     }
   };
 
-  const deleteService = async (id) => {
+  const deletePortfolio = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/service/service/${id}`,
+        `http://localhost:5000/api/portfolio/get-portfolio/${id}`,
         config
       );
       if (!res.data.status === 401 || !res.data) {
@@ -53,9 +53,9 @@ const AddServices = () => {
     }
   };
 
-  useEffect(() => {
-    getServiceData();
-  }, [deleteService]);
+   useEffect(() => {
+      getPortfolioData();
+    }, [deletePortfolio]);
 
   const handleDeleteClick = (itemId) => {
     setDeleteItem(itemId);
@@ -64,14 +64,15 @@ const AddServices = () => {
 
   const handleConfirmDelete = async () => {
     if (deleteItem) {
-      await deleteService(deleteItem);
-      getServiceData(); // Refresh header data after delete
+      await deletePortfolio(deleteItem);
+      getPortfolioData(); // Refresh data after delete
     }
     setIsModalOpen(false);
     setDeleteItem(null);
   };
+  
 
-  const handleCancelDelete = () => {
+  const handleCancelDelete = async () => {
     setIsModalOpen(false);
     setDeleteItem(null);
   };
@@ -93,14 +94,14 @@ const AddServices = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  Service Section
+                  Portfolio Section
                 </h1>
               </div>
             </div>
 
             {/* Add Content Button */}
             <div className="flex items-center justify-end m-4">
-              <NavLink to={"/service-insert"}>
+              <NavLink to={"/portfolio-insert"}>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -139,38 +140,40 @@ const AddServices = () => {
                     {/* Table body */}
                     <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                       {/* Row */}
-                      {serviceData.map((item) => (
-                        <tr key={item._id}>
-                          <td className="p-2 w-1/6">
-                            <div className="text-gray-800 dark:text-gray-100">
-                              {item.service.slice(0,15)}{" ...."}
-                            </div>
-                          </td>
-                          <td className="p-2 w-3/5">
-                            <div>{item.description.slice(0,80)}{" ...."}</div>
-                          </td>
-                          <td className="p-2 w-1/6">
-                            <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
-                              <span className="cursor-pointer">
-                                <NavLink to={`/service-details/${item._id}`}>
-                                  <CgDetailsMore />
-                                </NavLink>
-                              </span>
-                              <span className="cursor-pointer text-green-800">
-                                <NavLink to={`/service-edit/${item._id}`}>
-                                  <FaRegEdit />
-                                </NavLink>
-                              </span>
-                              <span
-                                className="cursor-pointer text-red-800"
-                                onClick={() => handleDeleteClick(item._id)}
-                              >
-                                <MdDelete />
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {portfolioData.map((item) => (
+                      <tr key={item._id}>
+                        <td className="p-2 w-1/6">
+                          <div className="text-gray-800 dark:text-gray-100">
+                          {item.name}
+                          </div>
+                        </td>
+                        <td className="p-2 w-3/5">
+                          <div>
+                          {item.niche}
+                          </div>
+                        </td>
+                        <td className="p-2 w-1/6">
+                          <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
+                            <span className="cursor-pointer">
+                              <NavLink to={`/portfolio-details/${item._id}`}>
+                                <CgDetailsMore />
+                              </NavLink>
+                            </span>
+                            <span className="cursor-pointer text-green-800">
+                              <NavLink to={`/portfolio-edit/${item._id}`}>
+                                <FaRegEdit />
+                              </NavLink>
+                            </span>
+                            <span
+                              className="cursor-pointer text-red-800"
+                              onClick={() => handleDeleteClick(item._id)}
+                            >
+                              <MdDelete />
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                      ))} 
                     </tbody>
                   </table>
                 </div>
@@ -212,4 +215,4 @@ const AddServices = () => {
   );
 };
 
-export default AddServices;
+export default AddPortfolio;

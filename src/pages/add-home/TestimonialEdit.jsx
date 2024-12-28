@@ -15,11 +15,6 @@ const TestimonialEdit = () => {
   const { id } = useParams(); // Get the ID from the URL
   const navigate = useNavigate();
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
 
   // Fetch data for the selected ID
   useEffect(() => {

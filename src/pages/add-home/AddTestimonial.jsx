@@ -141,11 +141,11 @@ const AddTestimonial = () => {
                         <tr key={item._id}>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                              {item.clientName}
+                              {item.clientName.slice(0,15)} {" ...."}
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>{item.clientComment}</div>
+                            <div>{item.clientComment.slice(0,80)} {" ...."}</div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
