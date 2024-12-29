@@ -3,7 +3,7 @@ const router = new express.Router();
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-import Service from "../models/Service.js";
+import Mission from "../models/Mission.js";
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -14,7 +14,7 @@ const __dirname = dirname(__filename);
 //image storage path
 const imgConfig = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "./public/Service");
+    callback(null, "./public/Mission");
   },
   filename: (req, file, callback) => {
     callback(null, `image-${file.originalname}`);
@@ -35,22 +35,22 @@ const upload = multer({
   fileFilter: isImage,
 });
 
-//Service Insert
-router.post("/insert-service", upload.single("image"), async (req, res) => {
+//Mission Insert
+router.post("/insert-mission", upload.single("image"), async (req, res) => {
   const image = req.file.filename;
-  const { service, description } = req.body;
+  const { heading, description } = req.body;
 
-  if (!service || !description || !image) {
+  if (!heading || !description || !image) {
     return res.status(401).json({ status: 401, message: "All fields are required" });
   }
 
   try {
-    const serviceData = new Service({
-      service,
+    const missionData = new Mission({
+        heading,
       description,
-      icon: image,
+      image,
     });
-    const finalData = await serviceData.save();
+    const finalData = await missionData.save();
     res.status(201).json({
       status: 201,
       finalData,
@@ -60,13 +60,13 @@ router.post("/insert-service", upload.single("image"), async (req, res) => {
   }
 });
 
-//Services Fetch
-router.get("/get-service", async (req, res) => {
+//Mission Fetch
+router.get("/get-mission", async (req, res) => {
   try {
-    const getService = await Service.find();
+    const getMission = await Mission.find();
     res.status(201).json({
       status: 201,
-      getService,
+      getMission,
     });
   } catch (error) {
     res.status(401).json({
@@ -76,25 +76,25 @@ router.get("/get-service", async (req, res) => {
   }
 });
 
-//service delete
-router.delete("/service/:id", async (req, res) => {
+//Mission delete
+router.delete("/get-mission/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
     // Find the header data to get the image path
-    const serviceData = await Service.findById({ _id: id });
+    const missionData = await Mission.findById({ _id: id });
 
-    if (!serviceData) {
+    if (!missionData) {
       return res
         .status(404)
-        .json({ status: 404, message: "Service not found" });
+        .json({ status: 404, message: "Mission not found" });
     }
 
     // Delete the file from the folder
     const imagePath = path.join(
       __dirname,
-      "../public/Service",
-      serviceData.icon
+      "../public/Mission",
+      missionData.image
     ); // Adjust path to your image folder
 
     if (fs.existsSync(imagePath)) {
@@ -108,48 +108,48 @@ router.delete("/service/:id", async (req, res) => {
     }
 
     // Delete the header data from the database
-    const dltService = await Service.findByIdAndDelete({ _id: id });
+    const dltMission = await Mission.findByIdAndDelete({ _id: id });
 
-    res.status(201).json({ status: 201, dltService });
+    res.status(201).json({ status: 201, dltMission });
   } catch (error) {
-    console.error("Error deleting Service:", error);
+    console.error("Error deleting Mission:", error);
     res.status(500).json({ status: 500, error: "Server error" });
   }
 });
 
-// fetch testimonial by id for Details Page
-router.get("/get-service/:id", async (req, res) => {
+// fetch mission by id for Details Page
+router.get("/get-mission/:id", async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id);
-    res.status(200).json({ service });
+    const mission = await Mission.findById(req.params.id);
+    res.status(200).json({ mission });
   } catch (error) {
-    res.status(400).json({ error: "Error fetching service data" });
+    res.status(400).json({ error: "Error fetching mission data" });
   }
 });
 
 // update Service
 router.put(
-  "/get-service/:id",
-  upload.single("icon"),
+  "/get-mission/:id",
+  upload.single("image"),
   async (req, res) => {
     try {
       const {
-        service,
+        heading,
         description,
       } = req.body;
 
       // Find the existing header data
-      const serviceById = await Service.findById(req.params.id);
-      if (!serviceById) {
-        return res.status(404).json({ error: "Service not found" });
+      const missionById = await Mission.findById(req.params.id);
+      if (!missionById) {
+        return res.status(404).json({ error: "mission not found" });
       }
 
       // Handle new image upload
       if (req.file) {
         const oldImagePath = path.join(
           __dirname,
-          "../public/Service",
-          serviceById.icon
+          "../public/Mission",
+          missionById.image
         );
 
         // Delete the old image if it exists
@@ -162,23 +162,23 @@ router.put(
         }
 
         // Update the new image path
-        serviceById.icon = req.file.filename;
+        missionById.image = req.file.filename;
       }
 
       // Update other fields
-      serviceById.service = service || serviceById.service;
-      serviceById.description = description || serviceById.description
+      missionById.heading = heading || missionById.heading;
+        missionById.description = description || missionById.description
 
       // Save the updated data
-      const updatedService = await serviceById.save();
+      const updatedMission = await missionById.save();
 
       res.status(200).json({
-        message: "Service updated successfully",
-        serviceById: updatedService,
+        message: "Mission updated successfully",
+        missionById: updatedMission,
       });
     } catch (error) {
-      console.error("Error updating Service:", error);
-      res.status(500).json({ error: "Server error while updating Service" });
+      console.error("Error updating Mission:", error);
+      res.status(500).json({ error: "Server error while updating Mission" });
     }
   }
 );

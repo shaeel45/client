@@ -4,39 +4,33 @@ import Header from "../../partials/Header";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
-const PortfolioEdit = () => {
+const TextEdit = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    niche: "",
-    link: "",
     heading: "",
-    paragraph: "",
-    image: null,
+    desc: "",
+    firstPoint: "",
+    secondPoint: "",
+    thirdPoint: "",
   });
   const { id } = useParams(); // Get the ID from the URL
   const navigate = useNavigate();
 
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
+  const fetchText = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/text/get-text/${id}`
+      );
+      const { heading, desc, firstPoint, secondPoint, thirdPoint } = res.data.text;
+      setFormData({ heading, desc, firstPoint, secondPoint, thirdPoint });
+
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
   };
 
-  // Fetch data for the selected ID
   useEffect(() => {
-    const fetchTeam = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/api/portfolio/get-portfolio/${id}`
-        );
-        const { name, niche, link, heading, paragraph } = res.data.portfolio;
-        setFormData({ name, niche, link, heading, paragraph });
-      } catch (error) {
-        console.error("Error fetching data:", error.response || error.message);
-      }
-    };
-    fetchTeam();
+    fetchText();
   }, [id]);
 
   const handleChange = (e) => {
@@ -44,34 +38,25 @@ const PortfolioEdit = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, image : file }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formDataToSend = new FormData();
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("niche", formData.niche);
-    formDataToSend.append("link", formData.link);
     formDataToSend.append("heading", formData.heading);
-    formDataToSend.append("paragraph", formData.paragraph);
-  
-    if (formData.image) {
-      formDataToSend.append("image", formData.image); // Include the new image
-    }
+    formDataToSend.append("desc", formData.desc);
+    formDataToSend.append("firstPoint", formData.firstPoint);
+    formDataToSend.append("secondPoint", formData.secondPoint);
+    formDataToSend.append("thirdPoint", formData.thirdPoint);
 
     try {
       await axios.put(
-        `http://localhost:5000/api/portfolio/get-portfolio/${id}`,
+        `http://localhost:5000/api/text/get-text/${id}`,
         formDataToSend,
         {
-          headers: { "Content-Type": "multipart/form-data" }, // Important for file upload
+          headers: { "Content-Type": "application/json" }, // Important for file upload
         }
       );
-      navigate("/add-portfolio");
+      navigate("/add-text");
     } catch (error) {
       console.error("Error updating data:", error.response || error.message);
     }
@@ -94,7 +79,7 @@ const PortfolioEdit = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  Portfolio Section
+                  Text Section
                 </h1>
               </div>
             </div>
@@ -102,77 +87,12 @@ const PortfolioEdit = () => {
             <div className="col-span-full xl:col-span-8 bg-white dark:bg-gray-900 shadow-sm rounded-xl">
               <header className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
                 <h2 className="font-semibold text-gray-800 dark:text-gray-100">
-                  Edit Portfolio
+                  Edit Text
                 </h2>
               </header>
               <div className="p-3">
                 {/* Form */}
                 <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      Portfolio
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Enter Portfolio"
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label
-                      htmlFor="niche"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      Niche
-                    </label>
-                    <input
-                      type="text"
-                      name="niche"
-                        value={formData.niche}
-                        onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Enter Portfolio"
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label
-                      htmlFor="link"
-                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                    >
-                      Link
-                    </label>
-                    <input
-                      type="text"
-                      name="link"
-                        value={formData.link}
-                        onChange={handleChange}
-                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Enter Portfolio"
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Image
-                    </label>
-                    <input
-                      type="file"
-                      name="image"
-                        onChange={handleFileChange}
-                    />
-                  </div>
-
                   <div className="mb-4">
                     <label
                       htmlFor="heading"
@@ -186,25 +106,79 @@ const PortfolioEdit = () => {
                         value={formData.heading}
                         onChange={handleChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Enter Portfolio"
+                      placeholder="Enter Heading"
+                      required
                     />
                   </div>
 
                   <div className="mb-4">
                     <label
-                      htmlFor="paragraph"
+                      htmlFor="desc"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
-                      Paragraph
+                      Description
                     </label>
                     <textarea
-                      name="paragraph"
-                        value={formData.paragraph}
+                      name="desc"
+                        value={formData.desc}
                         onChange={handleChange}
                       rows={4}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Enter paragraph"
+                      placeholder="Enter Description"
+                      required
                     ></textarea>
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="firstPoint"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      First Point
+                    </label>
+                    <input
+                      type="text"
+                      name="firstPoint"
+                        value={formData.firstPoint}
+                        onChange={handleChange}
+                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="Enter First Point"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="secondPoint"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      Second Point
+                    </label>
+                    <input
+                      type="text"
+                      name="secondPoint"
+                        value={formData.secondPoint}
+                        onChange={handleChange}
+                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="Enter Second Point (Optional)"
+                    />
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="thirdPoint"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      Third Point
+                    </label>
+                    <input
+                      type="text"
+                      name="thirdPoint"
+                        value={formData.thirdPoint}
+                        onChange={handleChange}
+                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="Enter Third Point (Optianal)"
+                    />
                   </div>
 
                   <div className="flex items-center justify-end">
@@ -225,4 +199,4 @@ const PortfolioEdit = () => {
   );
 };
 
-export default PortfolioEdit;
+export default TextEdit;

@@ -36,6 +36,22 @@ import AddBlog from "./pages/add-blog/AddBlog";
 import BlogInsert from "./pages/add-blog/BlogInsert";
 import BlogDetails from "./pages/add-blog/BlogDetails";
 import BlogEdit from "./pages/add-blog/BlogEdit";
+import AddText from "./pages/add-text/AddText";
+import TextInsert from "./pages/add-text/TextInsert";
+import TextDetails from "./pages/add-text/TextDetails";
+import TextEdit from "./pages/add-text/TextEdit";
+import AddMission from "./pages/add-mission/AddMission";
+import MissionDetails from "./pages/add-mission/MissionDetails";
+import MissionInsert from "./pages/add-mission/MissionInsert";
+import MissionEdit from "./pages/add-mission/MissionEdit";
+import AddVision from "./pages/add-vision/AddVision";
+import VisionInsert from "./pages/add-vision/VisionInsert";
+import VisionDetails from "./pages/add-vision/VisionDetails";
+import VisionEdit from "./pages/add-vision/VisionEdit";
+import AddCoreValue from "./pages/add-corevalue/AddCoreValue";
+import CoreValueInsert from "./pages/add-corevalue/CoreValueInsert";
+import CoreValueDetails from "./pages/add-corevalue/CoreValueDetails";
+import CoreValueEdit from "./pages/add-corevalue/CoreValueEdit";
 
 function App() {
   const location = useLocation();
@@ -232,7 +248,7 @@ function App() {
       />
       <Route
         exact
-        path="/about-details"
+        path="/about-details/:id"
         element={
           <Protected>
             <AboutDetails />
@@ -241,7 +257,7 @@ function App() {
       />
       <Route
         exact
-        path="/about-edit"
+        path="/about-edit/:id"
         element={
           <Protected>
             <AboutEdit />
@@ -270,7 +286,7 @@ function App() {
       />
       <Route
         exact
-        path="/blog-details"
+        path="/blog-details/:id"
         element={
           <Protected>
             <BlogDetails />
@@ -279,10 +295,162 @@ function App() {
       />
       <Route
         exact
-        path="/blog-edit"
+        path="/blog-edit/:id"
         element={
           <Protected>
             <BlogEdit />
+          </Protected>
+        }
+      />
+
+      {/* About */}
+      <Route
+          exact
+          path="/add-text"
+          element={
+            <Protected>
+              <AddText />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/text-insert"
+        element={
+          <Protected>
+            <TextInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/text-details/:id"
+        element={
+          <Protected>
+            <TextDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/text-edit/:id"
+        element={
+          <Protected>
+            <TextEdit />
+          </Protected>
+        }
+      />
+
+      {/* Mission */}
+      <Route
+          exact
+          path="/add-mission"
+          element={
+            <Protected>
+              <AddMission />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/mission-insert"
+        element={
+          <Protected>
+            <MissionInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/mission-details/:id"
+        element={
+          <Protected>
+            <MissionDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/mission-edit/:id"
+        element={
+          <Protected>
+            <MissionEdit />
+          </Protected>
+        }
+      />
+
+      {/* Vision */}
+      <Route
+          exact
+          path="/add-vision"
+          element={
+            <Protected>
+              <AddVision />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/vision-insert"
+        element={
+          <Protected>
+            <VisionInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/vision-details/:id"
+        element={
+          <Protected>
+            <VisionDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/vision-edit/:id"
+        element={
+          <Protected>
+            <VisionEdit />
+          </Protected>
+        }
+      />
+
+            {/* Core Values */}
+            <Route
+          exact
+          path="/add-corevalue"
+          element={
+            <Protected>
+              <AddCoreValue />
+            </Protected>
+          }
+        />
+        <Route
+        exact
+        path="/corevalue-insert"
+        element={
+          <Protected>
+            <CoreValueInsert />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/corevalue-details/:id"
+        element={
+          <Protected>
+            <CoreValueDetails />
+          </Protected>
+        }
+      />
+      <Route
+        exact
+        path="/corevalue-edit/:id"
+        element={
+          <Protected>
+            <CoreValueEdit />
           </Protected>
         }
       />

@@ -7,9 +7,31 @@ import axios from "axios";
 const AboutDetails = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { id } = useParams(); // Extract ID from URL
-  const [serviceData, setServiceData] = useState(null);
+  const [aboutData, setAboutData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const fetchAboutDetails = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/about/get-about/${id}`
+      );
+      setAboutData(res.data.about); // Ensure this matches your API response structure
+    } catch (err) {
+      console.error("Error fetching about details:", err);
+      setError("Failed to load about details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAboutDetails();
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!aboutData) return <p>No data available.</p>;
   
   return (
     <div className="flex h-screen overflow-hidden">
@@ -44,16 +66,24 @@ const AboutDetails = () => {
               <div className="overflow-x-auto">
                 <div className="flex justify-center mb-8">
                   <img
-                    src=""
-                    alt=""
+                    src={`http://localhost:5000/About/${aboutData.image}`}
+                    alt={aboutData.heading}
                     className="w-52 h-52 rounded-full shadow-lg object-cover"
                   />
                 </div>
-                <h1 className="text-4xl pt-5">Service</h1>
-                <p className="pt-5">sdfsd</p>
-                <h1 className="text-4xl pt-10">Description</h1>
+                <h1 className="text-4xl pt-5">Heading</h1>
+                <p className="pt-5">{aboutData.heading}</p>
+                <h1 className="text-4xl pt-10">First Paragraph</h1>
                 <div className="pt-5">
-                  <p>jkdhf</p>
+                  <p>{aboutData.firstPara}</p>
+                </div>
+                <h1 className="text-4xl pt-10">Second Paragraph</h1>
+                <div className="pt-5">
+                  <p>{aboutData.secondPara}</p>
+                </div>
+                <h1 className="text-4xl pt-10">Third Paragraph</h1>
+                <div className="pt-5">
+                  <p>{aboutData.thirdPara}</p>
                 </div>
               </div>
             </div>

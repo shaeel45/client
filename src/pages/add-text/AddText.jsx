@@ -7,12 +7,12 @@ import { MdDelete } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
-const AddBlog = () => {
+const AddText = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
 
-  const [blogData, setBlog] = useState([]);
+  const [textData, setText] = useState([]);
 
   const config = {
     headers: {
@@ -20,26 +20,26 @@ const AddBlog = () => {
     },
   };
 
-  const getBlogData = async () => {
+  const getTextData = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/blog/get-blog",
+        "http://localhost:5000/api/text/get-text",
         config
       );
       if (!res.data.status === 401 || !res.data) {
         console.error("Error");
       } else {
-        setBlog(res.data.getBlog);
+        setText(res.data.getText);
       }
     } catch (error) {
       console.error("Error fetching data:", error.response || error.message);
     }
   };
 
-  const deleteBlog = async (id) => {
+  const deleteText = async (id) => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/blog/get-blog/${id}`,
+        `http://localhost:5000/api/text/get-text/${id}`,
         config
       );
       if (!res.data.status === 401 || !res.data) {
@@ -54,8 +54,8 @@ const AddBlog = () => {
   };
 
   useEffect(() => {
-    getBlogData();
-  }, [deleteBlog]);
+    getTextData();
+  }, [deleteText]);
 
   const handleDeleteClick = (itemId) => {
     setDeleteItem(itemId);
@@ -64,8 +64,8 @@ const AddBlog = () => {
 
   const handleConfirmDelete = async () => {
     if (deleteItem) {
-      await deleteBlog(deleteItem);
-      getBlogData(); // Refresh header data after delete
+      await deleteText(deleteItem);
+      getTextData(); // Refresh header data after delete
     }
     setIsModalOpen(false);
     setDeleteItem(null);
@@ -77,7 +77,7 @@ const AddBlog = () => {
   };
 
   return (
-     <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -93,14 +93,14 @@ const AddBlog = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  Blog Section
+                  Text Section
                 </h1>
               </div>
             </div>
 
             {/* Add Content Button */}
             <div className="flex items-center justify-end m-4">
-              <NavLink to={"/blog-insert"}>
+              <NavLink to={"/text-insert"}>
                 <button
                   type="submit"
                   className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -120,7 +120,7 @@ const AddBlog = () => {
                       <tr>
                         <th className="p-2 w-1/6">
                           {/* Title column */}
-                          <div className="font-semibold text-left">Blog</div>
+                          <div className="font-semibold text-left">Heading</div>
                         </th>
                         <th className="p-2 w-3/5">
                           {/* Description column */}
@@ -139,27 +139,25 @@ const AddBlog = () => {
                     {/* Table body */}
                     <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                       {/* Row */}
-                      {blogData.map((item) => (
+                      {textData.map((item) => (
                         <tr key={item._id}>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                            {item.title.slice(0,15)} {" ...."}
+                              {item.heading.slice(0,15)}{" ...."}
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>
-                            {item.desc.slice(0,80)} {" ...."}
-                            </div>
+                            <div>{item.desc.slice(0,80)}{" ...."}</div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
                               <span className="cursor-pointer">
-                                <NavLink to={`/blog-details/${item._id}`}>
+                                <NavLink to={`/text-details/${item._id}`}>
                                   <CgDetailsMore />
                                 </NavLink>
                               </span>
                               <span className="cursor-pointer text-green-800">
-                                <NavLink to={`/blog-edit/${item._id}`}>
+                                <NavLink to={`/text-edit/${item._id}`}>
                                   <FaRegEdit />
                                 </NavLink>
                               </span>
@@ -211,7 +209,7 @@ const AddBlog = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AddBlog
+export default AddText;

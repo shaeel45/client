@@ -7,9 +7,31 @@ import axios from "axios";
 const BlogDetails = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { id } = useParams(); // Extract ID from URL
-  const [serviceData, setServiceData] = useState(null);
+  const [blogData, setBlogData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const fetchBlogDetails = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/blog/get-blog/${id}`
+      );
+      setBlogData(res.data.blog); // Ensure this matches your API response structure
+    } catch (err) {
+      console.error("Error fetching blog details:", err);
+      setError("Failed to load blog details.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogDetails();
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!blogData) return <p>No data available.</p>;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -44,16 +66,42 @@ const BlogDetails = () => {
               <div className="overflow-x-auto">
                 <div className="flex justify-center mb-8">
                   <img
-                    src=""
-                    alt=""
+                    src={`http://localhost:5000/Blog/${blogData.image}`}
+                    alt={blogData.title}
                     className="w-52 h-52 rounded-full shadow-lg object-cover"
                   />
                 </div>
-                <h1 className="text-4xl pt-5">Service</h1>
-                <p className="pt-5">kdshfhd</p>
+                <h1 className="text-4xl pt-5">Title</h1>
+                <p className="pt-5">{blogData.title}</p>
                 <h1 className="text-4xl pt-10">Description</h1>
                 <div className="pt-5">
-                  <p>khlj</p>
+                  <p>
+                  {blogData.desc}
+                  </p>
+                </div>
+                <h1 className="text-4xl pt-10">Posted By</h1>
+                <div className="pt-5">
+                  <p>
+                  {blogData.postedBy}
+                  </p>
+                </div>
+                <h1 className="text-4xl pt-10">Likes</h1>
+                <div className="pt-5">
+                  <p>
+                  {blogData.likes}
+                  </p>
+                </div>
+                <h1 className="text-4xl pt-10">Views</h1>
+                <div className="pt-5">
+                  <p>
+                  {blogData.views}
+                  </p>
+                </div>
+                <h1 className="text-4xl pt-10">Date</h1>
+                <div className="pt-5">
+                  <p>
+                  {blogData.date}
+                  </p>
                 </div>
               </div>
             </div>

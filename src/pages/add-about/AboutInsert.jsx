@@ -7,6 +7,69 @@ import { useNavigate } from "react-router-dom";
 const AboutInsert = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    const [heading, setHeading] = useState("");
+    const [firstPara, setFirstPara] = useState("");
+    const [secondPara, setSecondPara] = useState("");
+    const [thirdPara, setThirdPara] = useState("");
+    const [image, setImage] = useState(null);
+  
+    const navigate = useNavigate();
+  
+    const handleImageChange = (e) => {
+      setImage(e.target.files[0]);
+    };
+  
+    const HandleHeading = (e) => {
+      const { value } = e.target;
+      setHeading(value);
+    };
+    const HandleFirstPara = (e) => {
+      const { value } = e.target;
+      setFirstPara(value);
+    };
+    const HandleSecondPara = (e) => {
+      const { value } = e.target;
+      setSecondPara(value);
+    };
+    const HandleThirdPara = (e) => {
+      const { value } = e.target;
+      setThirdPara(value);
+    };
+
+    // Insert About
+  const addAboutData = async (e) => {
+    e.preventDefault();
+
+    var formData = new FormData();
+    formData.append("heading", heading);
+    formData.append("firstPara", firstPara);
+    formData.append("secondPara", secondPara);
+    formData.append("thirdPara", thirdPara);
+    formData.append("image", image);
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/about/insert-about",
+        formData,
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        navigate("/add-about");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error.response || error.message);
+    }
+  };
+
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -37,19 +100,19 @@ const AboutInsert = () => {
               </header>
               <div className="p-3">
                 {/* Form */}
-                <form>
+                <form onSubmit={addAboutData}>
                   <div className="mb-4">
                     <label
-                      htmlFor="service"
+                      htmlFor="heading"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
-                      Service
+                      Heading
                     </label>
                     <input
                       type="text"
-                      id="service"
-                      name="service"
-                    //   onChange={HandleService}
+                      id="heading"
+                      name="heading"
+                      onChange={HandleHeading}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       placeholder="Enter the service"
                       required
@@ -58,18 +121,54 @@ const AboutInsert = () => {
 
                   <div className="mb-4">
                     <label
-                      htmlFor="description"
+                      htmlFor="firstPara"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
-                      Description
+                      First Paragraph
                     </label>
                     <textarea
-                      id="description"
-                      name="description"
-                    //   onChange={HandleDesc}
+                      id="firstPara"
+                      name="firstPara"
+                      onChange={HandleFirstPara}
                       rows={4}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="Enter the description"
+                      placeholder="Enter the Paragraph"
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="firstPara"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      Second Paragraph
+                    </label>
+                    <textarea
+                      id="secondPara"
+                      name="secondPara"
+                      onChange={HandleSecondPara}
+                      rows={4}
+                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="Enter the Second Paragraph"
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      htmlFor="thirdPara"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      Third Paragraph
+                    </label>
+                    <textarea
+                      id="thirdPara"
+                      name="thirdPara"
+                      onChange={HandleThirdPara}
+                      rows={4}
+                      className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="Enter the Paragraph"
                       required
                     ></textarea>
                   </div>
@@ -79,13 +178,13 @@ const AboutInsert = () => {
                       htmlFor="image"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300"
                     >
-                      Icon
+                      Image
                     </label>
                     <input
                       type="file"
                       id="image"
                       name="image"
-                    //   onChange={handleImageChange}
+                      onChange={handleImageChange}
                       className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>

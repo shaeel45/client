@@ -3,7 +3,7 @@ const router = new express.Router();
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-import Portfolio from "../models/Portfolio.js";
+import Vision from "../models/Vision.js";
 
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -14,7 +14,7 @@ const __dirname = dirname(__filename);
 //image storage path
 const imgConfig = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "./public/Portfolio");
+    callback(null, "./public/Vision");
   },
   filename: (req, file, callback) => {
     callback(null, `image-${file.originalname}`);
@@ -35,30 +35,22 @@ const upload = multer({
   fileFilter: isImage,
 });
 
-//Portfolio Insert
-router.post("/insert-portfolio", upload.single("image"), async (req, res) => {
-  // console.log(req.body);
-  // console.log(req.file.filename);
+//Vision Insert
+router.post("/insert-vision", upload.single("image"), async (req, res) => {
   const image = req.file.filename;
-  const { name, niche, link, heading, paragraph } = req.body;
+  const { heading, description } = req.body;
 
-  if (!name || !niche || !link || !image) {
-    return res
-    .status(401)
-    .json({ status: 401, message: "Portfolio, Niche, Link and Image fields are required" });
+  if (!heading || !description || !image) {
+    return res.status(401).json({ status: 401, message: "All fields are required" });
   }
 
   try {
-    const portfolioData = new Portfolio({
-      name,
-      niche,
-      link,
-      heading,
-      paragraph,
+    const missionData = new Vision({
+        heading,
+      description,
       image,
     });
-    const finalData = await portfolioData.save();
-    console.log(finalData);
+    const finalData = await missionData.save();
     res.status(201).json({
       status: 201,
       finalData,
@@ -68,13 +60,13 @@ router.post("/insert-portfolio", upload.single("image"), async (req, res) => {
   }
 });
 
-//Portfolio Fetch
-router.get("/get-portfolio", async (req, res) => {
+//Mission Fetch
+router.get("/get-vision", async (req, res) => {
   try {
-    const getPortfolio = await Portfolio.find();
+    const getVision = await Vision.find();
     res.status(201).json({
       status: 201,
-      getPortfolio,
+      getVision,
     });
   } catch (error) {
     res.status(401).json({
@@ -84,23 +76,25 @@ router.get("/get-portfolio", async (req, res) => {
   }
 });
 
-// delete Portfolio
-router.delete("/get-portfolio/:id", async (req, res) => {
+//vision delete
+router.delete("/get-vision/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
     // Find the header data to get the image path
-    const portfolioData = await Portfolio.findById({ _id: id });
+    const visionData = await Vision.findById({ _id: id });
 
-    if (!portfolioData) {
-      return res.status(404).json({ status: 404, message: "Portfolio not found" });
+    if (!visionData) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "vision not found" });
     }
 
     // Delete the file from the folder
     const imagePath = path.join(
       __dirname,
-      "../public/Portfolio",
-      portfolioData.image
+      "../public/Vision",
+      visionData.image
     ); // Adjust path to your image folder
 
     if (fs.existsSync(imagePath)) {
@@ -114,51 +108,48 @@ router.delete("/get-portfolio/:id", async (req, res) => {
     }
 
     // Delete the header data from the database
-    const dltPortfolio = await Portfolio.findByIdAndDelete({ _id: id });
+    const dltVision = await Vision.findByIdAndDelete({ _id: id });
 
-    res.status(201).json({ status: 201, dltPortfolio });
+    res.status(201).json({ status: 201, dltVision });
   } catch (error) {
-    console.error("Error deleting Portfolio:", error);
+    console.error("Error deleting Vision:", error);
     res.status(500).json({ status: 500, error: "Server error" });
   }
 });
 
-// fetch Portfolio by id for details
-router.get("/get-portfolio/:id", async (req, res) => {
+// fetch vision by id for Details Page
+router.get("/get-vision/:id", async (req, res) => {
   try {
-    const portfolio = await Portfolio.findById(req.params.id);
-    res.status(200).json({ portfolio });
+    const vision = await Vision.findById(req.params.id);
+    res.status(200).json({ vision });
   } catch (error) {
-    res.status(400).json({ error: "Error fetching portfolio data" });
+    res.status(400).json({ error: "Error fetching vision data" });
   }
 });
 
-// update Team
+// update Service
 router.put(
-  "/get-portfolio/:id",
+  "/get-vision/:id",
   upload.single("image"),
   async (req, res) => {
     try {
       const {
-        name,
-        niche,
-        link,
         heading,
-        paragraph,
+        description,
       } = req.body;
 
       // Find the existing header data
-      const portfolio = await Portfolio.findById(req.params.id);
-      if (!portfolio) {
-        return res.status(404).json({ error: "Portfolio not found" });
+      const missionById = await Vision.findById(req.params.id);
+      if (!missionById) {
+        return res.status(404).json({ error: "mission not found" });
       }
 
       // Handle new image upload
       if (req.file) {
         const oldImagePath = path.join(
           __dirname,
-          "../public/Portfolio",
-          portfolio.image
+          "../public/Vision",
+          missionById.image
         );
 
         // Delete the old image if it exists
@@ -171,28 +162,26 @@ router.put(
         }
 
         // Update the new image path
-        portfolio.image = req.file.filename;
+        missionById.image = req.file.filename;
       }
 
       // Update other fields
-      portfolio.name = name || portfolio.name;
-      portfolio.niche = niche || portfolio.niche;
-      portfolio.link = link || portfolio.link;
-      portfolio.heading = heading || portfolio.heading;
-      portfolio.paragraph = paragraph || portfolio.paragraph;
+      missionById.heading = heading || missionById.heading;
+        missionById.description = description || missionById.description
 
       // Save the updated data
-      const updatedPortfolio = await portfolio.save();
+      const updatedMission = await missionById.save();
 
       res.status(200).json({
-        message: "Portfolio updated successfully",
-        portfolio: updatedPortfolio,
+        message: "Mission updated successfully",
+        missionById: updatedMission,
       });
     } catch (error) {
-      console.error("Error updating portfolio:", error);
-      res.status(500).json({ error: "Server error while updating portfolio" });
+      console.error("Error updating Mission:", error);
+      res.status(500).json({ error: "Server error while updating Mission" });
     }
   }
 );
+
 
 export default router;

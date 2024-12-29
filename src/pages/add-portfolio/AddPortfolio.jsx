@@ -144,12 +144,12 @@ const AddPortfolio = () => {
                       <tr key={item._id}>
                         <td className="p-2 w-1/6">
                           <div className="text-gray-800 dark:text-gray-100">
-                          {item.name}
+                          {item.name.slice(0,15)} {" ...."}
                           </div>
                         </td>
                         <td className="p-2 w-3/5">
                           <div>
-                          {item.niche}
+                          {item.niche.slice(0,80)} {" ...."}
                           </div>
                         </td>
                         <td className="p-2 w-1/6">

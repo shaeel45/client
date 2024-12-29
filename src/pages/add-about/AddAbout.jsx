@@ -12,6 +12,70 @@ const AddAbout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
 
+  const [aboutData, setAbout] = useState([]);
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const getAboutData = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/about/get-about",
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        setAbout(res.data.getAbout);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
+  };
+
+  const deleteAbout = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/api/about/get-about/${id}`,
+        config
+      );
+      if (!res.data.status === 401 || !res.data) {
+        console.error("Error");
+      } else {
+        setIsModalOpen(false);
+        setDeleteItem(null);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error.response || error.message);
+    }
+  };
+
+  useEffect(() => {
+    getAboutData();
+    }, [deleteAbout]);
+
+    const handleDeleteClick = (itemId) => {
+      setDeleteItem(itemId);
+      setIsModalOpen(true);
+    };
+  
+    const handleConfirmDelete = async () => {
+      if (deleteItem) {
+        await deleteAbout(deleteItem);
+        getAboutData(); // Refresh header data after delete
+      }
+      setIsModalOpen(false);
+      setDeleteItem(null);
+    };
+  
+    const handleCancelDelete = () => {
+      setIsModalOpen(false);
+      setDeleteItem(null);
+    };
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
@@ -75,25 +139,27 @@ const AddAbout = () => {
                     {/* Table body */}
                     <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                       {/* Row */}
-                      {/* {serviceData.map((item) => ( */}
-                        <tr >
+                      {aboutData.map((item) => (
+                        <tr key={item._id}>
                           <td className="p-2 w-1/6">
                             <div className="text-gray-800 dark:text-gray-100">
-                              dsfsd
+                              {item.heading.slice(0,15)}{" ...."}
                             </div>
                           </td>
                           <td className="p-2 w-3/5">
-                            <div>sdfdsf</div>
+                            <div>
+                            {item.firstPara.slice(0,80)}{" ...."}
+                            </div>
                           </td>
                           <td className="p-2 w-1/6">
                             <div className="text-center text-gray-500 flex justify-center text-3xl gap-4">
                               <span className="cursor-pointer">
-                                <NavLink to={`/about-details`}>
+                                <NavLink to={`/about-details/${item._id}`}>
                                   <CgDetailsMore />
                                 </NavLink>
                               </span>
                               <span className="cursor-pointer text-green-800">
-                                <NavLink to={`/about-edit`}>
+                                <NavLink to={`/about-edit/${item._id}`}>
                                   <FaRegEdit />
                                 </NavLink>
                               </span>
@@ -106,7 +172,7 @@ const AddAbout = () => {
                             </div>
                           </td>
                         </tr>
-                      {/* ))} */}
+                      ))}
                     </tbody>
                   </table>
                 </div>
