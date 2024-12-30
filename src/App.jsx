@@ -68,6 +68,8 @@ import AddAddress from "./pages/add-address/AddAddress";
 import AddressInsert from "./pages/add-address/AddressInsert";
 import AddressDetails from "./pages/add-address/AddressDetails";
 import AddressEdit from "./pages/add-address/AddressEdit";
+import Message from "./pages/message/Message";
+import MessageDetails from "./pages/message/MessageDetails";
 
 function App() {
   const location = useLocation();
@@ -619,6 +621,26 @@ function App() {
           element={
             <Protected>
               <AddressEdit />
+            </Protected>
+          }
+        />
+
+        {/* Message */}
+        <Route
+          exact
+          path="/add-message"
+          element={
+            <Protected>
+              <Message />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/message-details"
+          element={
+            <Protected>
+              <MessageDetails />
             </Protected>
           }
         />
