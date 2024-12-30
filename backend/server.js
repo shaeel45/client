@@ -11,6 +11,8 @@ import blogRoutes from "./Routes/blogRoutes.js";
 import missionRoutes from "./Routes/missionRoutes.js";
 import visionRoutes from "./Routes/visionRoutes.js";
 import corevalueRoutes from "./Routes/corevalueRoutes.js";
+import userRoutes from "./Routes/userRoutes.js";
+import contactRoutes from "./Routes/contactRoutes.js";
 
 import cors from 'cors';
 
@@ -37,6 +39,8 @@ app.use('/api/blog', blogRoutes);
 app.use('/api/mission', missionRoutes);
 app.use('/api/vision', visionRoutes);  
 app.use('/api/corevalue', corevalueRoutes);
+app.use('/api/user', userRoutes);contactRoutes
+app.use('/api/contact', contactRoutes);
 
 app.use('/Home', express.static("./public/Home"));
 app.use('/Service', express.static("./public/Service"));
@@ -46,7 +50,7 @@ app.use('/Blog', express.static("./public/Blog"));
 app.use('/Mission', express.static("./public/Mission"));
 app.use('/Vision', express.static("./public/Vision"));
 app.use('/Corevalue', express.static("./public/Corevalue"));
-
+app.use('/Contact', express.static("./public/Contact"));
 
 // Define the port (use the PORT from .env or default to 5000)
 const PORT = process.env.PORT || 5000;

@@ -52,6 +52,22 @@ import AddCoreValue from "./pages/add-corevalue/AddCoreValue";
 import CoreValueInsert from "./pages/add-corevalue/CoreValueInsert";
 import CoreValueDetails from "./pages/add-corevalue/CoreValueDetails";
 import CoreValueEdit from "./pages/add-corevalue/CoreValueEdit";
+import AddUser from "./pages/add-user/AddUser";
+import UserInsert from "./pages/add-user/UserInsert";
+import UserDetails from "./pages/add-user/UserDetails";
+import UserEdit from "./pages/add-user/UserEdit";
+import AddContact from "./pages/add-contact/AddContact";
+import ContactInsert from "./pages/add-contact/ContactInsert";
+import ContactDetails from "./pages/add-contact/ContactDetails";
+import ContactEdit from "./pages/add-contact/ContactEdit";
+import AddPhone from "./pages/add-phone/AddPhone";
+import PhoneInsert from "./pages/add-phone/PhoneInsert";
+import PhoneDetails from "./pages/add-phone/PhoneDetails";
+import PhoneEdit from "./pages/add-phone/PhoneEdit";
+import AddAddress from "./pages/add-address/AddAddress";
+import AddressInsert from "./pages/add-address/AddressInsert";
+import AddressDetails from "./pages/add-address/AddressDetails";
+import AddressEdit from "./pages/add-address/AddressEdit";
 
 function App() {
   const location = useLocation();
@@ -162,35 +178,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/service-insert"
-        element={
-          <Protected>
-            <ServiceInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/service-details/:id"
-        element={
-          <Protected>
-            <ServiceDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/service-edit/:id"
-        element={
-          <Protected>
-            <ServiceEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/service-insert"
+          element={
+            <Protected>
+              <ServiceInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/service-details/:id"
+          element={
+            <Protected>
+              <ServiceDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/service-edit/:id"
+          element={
+            <Protected>
+              <ServiceEdit />
+            </Protected>
+          }
+        />
 
-      {/* Portfolio */}
-      <Route
+        {/* Portfolio */}
+        <Route
           exact
           path="/add-portfolio"
           element={
@@ -200,35 +216,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/portfolio-insert"
-        element={
-          <Protected>
-            <PortfolioInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/portfolio-details/:id"
-        element={
-          <Protected>
-            <PortfolioDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/portfolio-edit/:id"
-        element={
-          <Protected>
-            <PortfolioEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/portfolio-insert"
+          element={
+            <Protected>
+              <PortfolioInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/portfolio-details/:id"
+          element={
+            <Protected>
+              <PortfolioDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/portfolio-edit/:id"
+          element={
+            <Protected>
+              <PortfolioEdit />
+            </Protected>
+          }
+        />
 
-      {/* About */}
-      <Route
+        {/* About */}
+        <Route
           exact
           path="/add-about"
           element={
@@ -238,35 +254,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/about-insert"
-        element={
-          <Protected>
-            <AboutInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/about-details/:id"
-        element={
-          <Protected>
-            <AboutDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/about-edit/:id"
-        element={
-          <Protected>
-            <AboutEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/about-insert"
+          element={
+            <Protected>
+              <AboutInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/about-details/:id"
+          element={
+            <Protected>
+              <AboutDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/about-edit/:id"
+          element={
+            <Protected>
+              <AboutEdit />
+            </Protected>
+          }
+        />
 
-      {/* Blogs */}
-      <Route
+        {/* Blogs */}
+        <Route
           exact
           path="/add-blog"
           element={
@@ -276,35 +292,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/blog-insert"
-        element={
-          <Protected>
-            <BlogInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/blog-details/:id"
-        element={
-          <Protected>
-            <BlogDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/blog-edit/:id"
-        element={
-          <Protected>
-            <BlogEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/blog-insert"
+          element={
+            <Protected>
+              <BlogInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/blog-details/:id"
+          element={
+            <Protected>
+              <BlogDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/blog-edit/:id"
+          element={
+            <Protected>
+              <BlogEdit />
+            </Protected>
+          }
+        />
 
-      {/* About */}
-      <Route
+        {/* About */}
+        <Route
           exact
           path="/add-text"
           element={
@@ -314,35 +330,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/text-insert"
-        element={
-          <Protected>
-            <TextInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/text-details/:id"
-        element={
-          <Protected>
-            <TextDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/text-edit/:id"
-        element={
-          <Protected>
-            <TextEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/text-insert"
+          element={
+            <Protected>
+              <TextInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/text-details/:id"
+          element={
+            <Protected>
+              <TextDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/text-edit/:id"
+          element={
+            <Protected>
+              <TextEdit />
+            </Protected>
+          }
+        />
 
-      {/* Mission */}
-      <Route
+        {/* Mission */}
+        <Route
           exact
           path="/add-mission"
           element={
@@ -352,35 +368,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/mission-insert"
-        element={
-          <Protected>
-            <MissionInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/mission-details/:id"
-        element={
-          <Protected>
-            <MissionDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/mission-edit/:id"
-        element={
-          <Protected>
-            <MissionEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/mission-insert"
+          element={
+            <Protected>
+              <MissionInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/mission-details/:id"
+          element={
+            <Protected>
+              <MissionDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/mission-edit/:id"
+          element={
+            <Protected>
+              <MissionEdit />
+            </Protected>
+          }
+        />
 
-      {/* Vision */}
-      <Route
+        {/* Vision */}
+        <Route
           exact
           path="/add-vision"
           element={
@@ -390,35 +406,35 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/vision-insert"
-        element={
-          <Protected>
-            <VisionInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/vision-details/:id"
-        element={
-          <Protected>
-            <VisionDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/vision-edit/:id"
-        element={
-          <Protected>
-            <VisionEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/vision-insert"
+          element={
+            <Protected>
+              <VisionInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/vision-details/:id"
+          element={
+            <Protected>
+              <VisionDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/vision-edit/:id"
+          element={
+            <Protected>
+              <VisionEdit />
+            </Protected>
+          }
+        />
 
-            {/* Core Values */}
-            <Route
+        {/* Core Values */}
+        <Route
           exact
           path="/add-corevalue"
           element={
@@ -428,34 +444,185 @@ function App() {
           }
         />
         <Route
-        exact
-        path="/corevalue-insert"
-        element={
-          <Protected>
-            <CoreValueInsert />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/corevalue-details/:id"
-        element={
-          <Protected>
-            <CoreValueDetails />
-          </Protected>
-        }
-      />
-      <Route
-        exact
-        path="/corevalue-edit/:id"
-        element={
-          <Protected>
-            <CoreValueEdit />
-          </Protected>
-        }
-      />
+          exact
+          path="/corevalue-insert"
+          element={
+            <Protected>
+              <CoreValueInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/corevalue-details/:id"
+          element={
+            <Protected>
+              <CoreValueDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/corevalue-edit/:id"
+          element={
+            <Protected>
+              <CoreValueEdit />
+            </Protected>
+          }
+        />
 
-      </Routes>      
+        {/* User */}
+        <Route
+          exact
+          path="/add-user"
+          element={
+            <Protected>
+              <AddUser />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/user-insert"
+          element={
+            <Protected>
+              <UserInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/user-details/:id"
+          element={
+            <Protected>
+              <UserDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/user-edit/:id"
+          element={
+            <Protected>
+              <UserEdit />
+            </Protected>
+          }
+        />
+
+        {/* Contact */}
+        <Route
+          exact
+          path="/add-contact"
+          element={
+            <Protected>
+              <AddContact />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/contact-insert"
+          element={
+            <Protected>
+              <ContactInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/contact-details/:id"
+          element={
+            <Protected>
+              <ContactDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/contact-edit/:id"
+          element={
+            <Protected>
+              <ContactEdit />
+            </Protected>
+          }
+        />
+
+        {/* Phone Card */}
+        <Route
+          exact
+          path="/add-phone"
+          element={
+            <Protected>
+              <AddPhone />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/phone-insert"
+          element={
+            <Protected>
+              <PhoneInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/phone-details/:id"
+          element={
+            <Protected>
+              <PhoneDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/phone-edit/:id"
+          element={
+            <Protected>
+              <PhoneEdit />
+            </Protected>
+          }
+        />
+
+        {/* Address */}
+        <Route
+          exact
+          path="/add-address"
+          element={
+            <Protected>
+              <AddAddress />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/address-insert"
+          element={
+            <Protected>
+              <AddressInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/address-details/:id"
+          element={
+            <Protected>
+              <AddressDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/address-edit/:id"
+          element={
+            <Protected>
+              <AddressEdit />
+            </Protected>
+          }
+        />
+      </Routes>
     </>
   );
 }

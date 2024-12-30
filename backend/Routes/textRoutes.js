@@ -1,8 +1,6 @@
 import express from "express";
 const router = new express.Router();
-import multer from "multer";
 import Text from "../models/Text.js";
-
 
 //Text Insert
 router.post("/insert-text", async (req, res) => {
