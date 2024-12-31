@@ -14,6 +14,7 @@ import corevalueRoutes from "./Routes/corevalueRoutes.js";
 import userRoutes from "./Routes/userRoutes.js";
 import contactRoutes from "./Routes/contactRoutes.js";
 import messageRoutes from "./Routes/messageRoutes.js";
+import privacyRoutes from "./Routes/privacyRoutes.js";
 
 import cors from 'cors';
 
@@ -43,6 +44,7 @@ app.use('/api/corevalue', corevalueRoutes);
 app.use('/api/user', userRoutes);contactRoutes
 app.use('/api/contact', contactRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/privacy', privacyRoutes);
 
 app.use('/Home', express.static("./public/Home"));
 app.use('/Service', express.static("./public/Service"));

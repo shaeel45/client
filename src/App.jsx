@@ -70,6 +70,10 @@ import AddressDetails from "./pages/add-address/AddressDetails";
 import AddressEdit from "./pages/add-address/AddressEdit";
 import Message from "./pages/message/Message";
 import MessageDetails from "./pages/message/MessageDetails";
+import AddPrivacy from "./pages/add-privacy/AddPrivacy";
+import PrivacyInsert from "./pages/add-privacy/PrivacyInsert";
+import PrivacyDetails from "./pages/add-privacy/PrivacyDetails";
+import PrivacyEdit from "./pages/add-privacy/PrivacyEdit";
 
 function App() {
   const location = useLocation();
@@ -641,6 +645,44 @@ function App() {
           element={
             <Protected>
               <MessageDetails />
+            </Protected>
+          }
+        />
+
+        {/* Privacy */}
+        <Route
+          exact
+          path="/add-privacy"
+          element={
+            <Protected>
+              <AddPrivacy />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/privacy-insert"
+          element={
+            <Protected>
+              <PrivacyInsert />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/privacy-details/:id"
+          element={
+            <Protected>
+              <PrivacyDetails />
+            </Protected>
+          }
+        />
+        <Route
+          exact
+          path="/privacy-edit/:id"
+          element={
+            <Protected>
+              <PrivacyEdit />
             </Protected>
           }
         />

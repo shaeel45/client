@@ -4,8 +4,8 @@ import Header from "../../partials/Header";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const TextDetails = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const PrivacyDetails = () => {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
   const { id } = useParams(); // Extract ID from URL
   const [textData, setTextData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,12 +14,12 @@ const TextDetails = () => {
   const fetchTextDetails = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/text/get-text/${id}`
+        `http://localhost:5000/api/privacy/get-privacy/${id}`
       );
-      setTextData(res.data.text); // Ensure this matches your API response structure
+      setTextData(res.data.privacy); // Ensure this matches your API response structure
     } catch (err) {
-      console.error("Error fetching text details:", err);
-      setError("Failed to load text details.");
+      console.error("Error fetching privacy details:", err);
+      setError("Failed to load privacy details.");
     } finally {
       setLoading(false);
     }
@@ -34,7 +34,7 @@ const TextDetails = () => {
   if (!textData) return <p>No data available.</p>;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -50,7 +50,7 @@ const TextDetails = () => {
               {/* Left: Title */}
               <div className="mb-4 sm:mb-0">
                 <h1 className="text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-bold">
-                  About Section
+                  Privacy Section
                 </h1>
               </div>
             </div>
@@ -64,32 +64,12 @@ const TextDetails = () => {
               <div className="p-3">
                 {/* Table */}
                 <div className="overflow-x-auto">
-                  <h1 className="text-4xl pt-5">Heading</h1>
-                  <p className="pt-5">{textData.heading}</p>
+                  <h1 className="text-4xl pt-5">Title</h1>
+                  <p className="pt-5">{textData.title}</p>
                   <h1 className="text-4xl pt-10">Description</h1>
                   <div className="pt-5">
-                    <p>{textData.desc}</p>
-                  </div>
-                  <h1 className="text-4xl pt-10">First Point</h1>
-                  <div className="pt-5">
-                    <p>{textData.firstPoint}</p>
-                  </div>
-                  <h1 className="text-4xl pt-10">Second Point</h1>
-                  <div className="pt-5">
-                    <p>
-                      {textData.secondPoint
-                        ? textData.secondPoint
-                        : "Not Inserted"}
-                    </p>
-                  </div>
-                  <h1 className="text-4xl pt-10">Third Point</h1>
-                  <div className="pt-5">
-                    <p>
-                      {textData.thirdPoint
-                        ? textData.thirdPoint
-                        : "Not Inserted"}
-                    </p>
-                  </div>
+                    <p>{textData.description}</p>
+                  </div>              
                 </div>
               </div>
             </div>
@@ -97,7 +77,7 @@ const TextDetails = () => {
         </main>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TextDetails;
+export default PrivacyDetails
