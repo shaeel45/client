@@ -2,7 +2,7 @@ import React from "react";
 import { IoLogoDesignernews } from "react-icons/io";
 import { MdDoubleArrow, MdOutlineDeveloperMode, MdOutlineWeb } from "react-icons/md";
 import { RiSeoFill } from "react-icons/ri";
-import Services from "../Components/Services";
+import Services from "../components/Services";
 
 function Servicep() {
   return (

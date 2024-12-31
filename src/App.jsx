@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import "./css/style.css";
-
+import gsap from "gsap";
 // Import pages
 import LoginForm from "./components/LoginForm";
 import Signup from "./components/Signup"; // Import Signup component
@@ -70,10 +70,12 @@ import AddressDetails from "./pages/add-address/AddressDetails";
 import AddressEdit from "./pages/add-address/AddressEdit";
 import Message from "./pages/message/Message";
 import MessageDetails from "./pages/message/MessageDetails";
-
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer"
 function App() {
   const location = useLocation();
-
+  const tl = gsap.timeline();
   useEffect(() => {
     document.querySelector("html").style.scrollBehavior = "auto";
     window.scroll({ top: 0 });
@@ -82,21 +84,18 @@ function App() {
 
   return (
     <>
+     <div className=" bg-slate-100 font-Moderustic w-full ">
+        <Header tl={tl} />
+        <Outlet path="/"/>
+        <Footer />
+      </div>
       <Routes>
         {/* Public Routes */}
+        
         <Route exact path="/login-form" element={<LoginForm />} />
         <Route exact path="/signup-form" element={<Signup />} />
-
+      
         {/* Protected Routes */}
-        <Route
-          exact
-          path="/"
-          element={
-            <Protected>
-              <Homep />
-            </Protected>
-          }
-        />
         <Route
           exact
           path="/add-header"

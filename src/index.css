@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Moderustic:wght@300..800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* .slick-slide > div {
+    margin: 0 10px;
+  } */
+
+  /* button.slick-arrow.slick-next::before{
+    display: none;
+  } */
+
+  .msubmenuOpen{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .nmsubmenuOpen{
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+  }
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+  
+  html{
+    font-size: 100%;
+    /* width: 100%; */
+  }
+
+  .messageShape{
+    clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
+
+  }
+
+  .submenuopen{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .submenuleave{
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+  .group-hover\:rotate-y-180:hover {
+    transform: rotateY(180deg);
+  }
+
+  
+  /* @media (max-width: 1024px) {
+    html{
+      font-size: 80%;
+    }
+  } */
+  
+  @media (max-width: 768px) {
+    html{
+      font-size: 80%;
+    }
+  }
+  
+  /* @media (max-width: 440px) {
+    html{
+      font-size: 67%;
+    }
+  } */
+  
+  

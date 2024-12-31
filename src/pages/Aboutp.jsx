@@ -2,7 +2,7 @@ import React from 'react'
 import { MdDoubleArrow } from 'react-icons/md'
 import AboutUsImg from "../assets/AboutUsImg.webp"
 // import AboutpImg2 from "../assets/AboutImg.png"
-import Testimonials from '../Components/Testimonials'
+import Testimonials from '../components/Testimonials'
 import AboutImg from "../assets/AboutImg.jpg"
 
 const Aboutp = () => {

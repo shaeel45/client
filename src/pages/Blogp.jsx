@@ -1,7 +1,7 @@
 import React from "react";
 import { MdDoubleArrow } from "react-icons/md";
-import Blog from "../Components/SubComponents/Blog";
-import Blogs from "../Components/Blogs";
+import Blog from "../components/SubComponents/Blog";
+// import Blogs from "../Components/Blogs";
 import BlogImg1 from "../assets/BlogImg1.webp"
 import BlogImg2 from "../assets/BlogImg2.webp"
 import BlogImg3 from "../assets/BlogImg3.webp"

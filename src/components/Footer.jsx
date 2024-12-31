@@ -5,6 +5,7 @@ import { FaLinkedinIn } from "react-icons/fa";
 import { BsTwitterX } from "react-icons/bs";
 import Logo from "../assets/Logo.png"
 import { IoMdArrowUp } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 
 function Footer() {
@@ -46,7 +47,7 @@ function Footer() {
           <h3 className=" mb-2 font-semibold text-xl ">Resources</h3>
           <h3 className=" hover:text-[#0372BF] cursor-pointer ">Life Chatting</h3>
           <h3 className=" hover:text-[#0372BF] cursor-pointer ">Customer Forum</h3>
-          <h3 className=" hover:text-[#0372BF] cursor-pointer ">Privacy Policy</h3>
+         <Link to={'/privacypolicy'}><h3 className=" hover:text-[#0372BF] cursor-pointer ">Privacy Policy</h3></Link> 
           <h3 className=" hover:text-[#0372BF] cursor-pointer ">Terms of Service</h3>
           <h3 className=" hover:text-[#0372BF] cursor-pointer ">Return Policy</h3>
         </div>

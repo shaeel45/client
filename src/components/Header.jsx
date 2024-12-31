@@ -5,18 +5,20 @@ import { useGSAP } from "@gsap/react";
 // import gsap from "gsap";
 import { HiBars3BottomRight } from "react-icons/hi2";
 import { TbArrowsCross } from "react-icons/tb";
-import { IoMdArrowDropdown } from "react-icons/io";
+// import { IoMdArrowDropdown } from "react-icons/io";
 import Loading from "./SubComponents/Loading";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa";
 import gsap from "gsap";
 
+// import { Link } from 'react-router-dom';
+import { IoMdArrowDropdown } from 'react-icons/io';
 
 
 function Header({ tl }) {
   const [scroll, setScroll] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [subMenuOpen, setsubMenuOpen] = useState(false);
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [msubMenuOpen, setMsubMenuOpen] = useState(false)
   console.log(menuOpen);
   // const [locationPath, setlocationPath] = useState()
@@ -125,27 +127,27 @@ function Header({ tl }) {
                 Home
               </h3>
             </Link>
-            <div className=" relative ">
-              <h3
-                onMouseEnter={() => setsubMenuOpen(true)}
-                onMouseLeave={() => setsubMenuOpen(false)}
-                
-                className=" flex items-center  hover:text-[#0372BF] transition-colors duration-200 ease-in-out py-4 cursor-pointer headerItem "
-              >
-                Company
-                <IoMdArrowDropdown
-                  className={`${
-                    subMenuOpen ? "rotate-180 " : null
-                  } mt-3 text-xl transition-rotate duration-200 ease-linear `}
-                />
-              </h3>
-              <div
-                onMouseEnter={() => setsubMenuOpen(true)}
-                onMouseLeave={() => setsubMenuOpen(false)}
-                className={` absolute text-[#fff] transition-all duration-300 ease-linear bg-[#0372BF] w-[15rem] flex flex-col ${
-                  subMenuOpen ? "submenuopen" : "submenuleave"
-                } `}
-              >
+            <div className="relative">
+          <h3
+            onMouseEnter={() => setSubMenuOpen(true)}
+            onMouseLeave={() => setSubMenuOpen(false)}
+            className="flex items-center hover:text-[#0372BF] transition-colors duration-200 ease-in-out py-4 cursor-pointer headerItem"
+          >
+            Company
+            <IoMdArrowDropdown
+              className={`${
+                subMenuOpen ? 'rotate-180' : ''
+              } mt-3 text-xl transition-transform duration-200 ease-linear`}
+            />
+          </h3>
+          <div
+            onMouseEnter={() => setSubMenuOpen(true)}
+            onMouseLeave={() => setSubMenuOpen(false)}
+            className={`absolute text-[#fff] transition-all duration-300 ease-linear bg-[#0372BF] w-[15rem] flex flex-col ${
+              subMenuOpen ? 'submenuopen' : 'submenuleave'
+            }`}
+          >
+           
                 <Link
                   to={"/about"}
                   onClick={()=>setsubMenuOpen(false)}

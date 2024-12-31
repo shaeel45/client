@@ -9,7 +9,7 @@ import Portfolio6 from "../assets/Portfolio6.png";
 import Portfolio7 from "../assets/Portfolio7.png";
 import Portfolio8 from "../assets/Portfolio8.png";
 import Portfolio9 from "../assets/Portfolio9.png";
-import PortfolioCard from "../Components/SubComponents/PortfolioCard";
+import PortfolioCard from "../components/SubComponents/PortfolioCard";
 
 const Portfoliop = () => {
   return (

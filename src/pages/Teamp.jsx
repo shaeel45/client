@@ -1,5 +1,5 @@
 import React from 'react'
-import Team from '../Components/Team'
+import Team from '../components/Team'
 import { MdDoubleArrow } from 'react-icons/md'
 
 const Teamp = () => {
